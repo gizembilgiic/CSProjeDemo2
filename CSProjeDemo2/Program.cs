@@ -82,10 +82,13 @@ namespace CSProjeDemo2
 
             Officer officer2 = new Officer("Ahmet Karasu", "Memur");
             Manager manager123 = new Manager("Samet Biçer","Manager");
-            officer2.MaasHesapla();
-            Console.WriteLine("--------------------------------------------------------");
-            manager123.MaasHesapla();
+            //officer2.MaasHesapla();
+            //Console.WriteLine("--------------------------------------------------------");
+            //manager123.MaasHesapla();
 
+            FileReader fileReader = new FileReader();
+            fileReader.DosyaOku();
+            
              
 
 
