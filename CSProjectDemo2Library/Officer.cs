@@ -9,6 +9,7 @@ namespace CSProjectDemo2Library
     public class Officer : BasePersonnel
     {
         public string OfficerGrade { get; set; }
+        public decimal MaasOfficer { get; set; }
         public Officer(string name, string title) : base(name, title)
         {
 
@@ -85,9 +86,6 @@ namespace CSProjectDemo2Library
             {
                 maas = (SaatlikUcret * 180) + ((CalismaSaati - 180) * 1.5m * SaatlikUcret);
             }
-
-
-
             switch (OfficerGrade)
             {
                 case "1":
@@ -102,12 +100,7 @@ namespace CSProjectDemo2Library
                     maas += (SaatlikUcret * 3);
                     Console.WriteLine(maas);
                     break;
-
-
             }
-
-
-
             return maas;
         }
     }

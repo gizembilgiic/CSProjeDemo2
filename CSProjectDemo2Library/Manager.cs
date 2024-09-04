@@ -9,6 +9,7 @@ namespace CSProjectDemo2Library
     public class Manager : BasePersonnel
     {
         public decimal Bonus { get; set; }
+        public decimal MaasManager { get; set; }
         public Manager(string name, string title) : base(name, title)
         {
 
