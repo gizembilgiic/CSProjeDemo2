@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace CSProjectDemo2Library
@@ -14,9 +15,10 @@ namespace CSProjectDemo2Library
         {
 
         }
-
+        
         public override decimal MaasHesapla()
         {
+            Console.WriteLine("Gizem istedi boşluk attım");
             decimal maas = 0;
 
             Console.WriteLine("Memur bir personelin maaşı hesaplanacaktır.");
