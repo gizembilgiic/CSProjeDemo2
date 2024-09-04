@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CSProjectDemo2Library;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.PortableExecutable;
@@ -10,38 +11,47 @@ namespace CSProjectDemo2Library
 {
     public class FileReader
     {
-          List<Manager> personneller = new List<Manager>();
-        public string DosyaOku( List<Manager> personeller)
+        public void DosyaOku()
         {
-            string jsonList = JsonSerializer.Serialize(personneller);
+            // JSON dosyasını oku
             StreamReader okuyucu = new StreamReader(@"Json1.json");
             string tumListeOku = okuyucu.ReadToEnd();
+            okuyucu.Close();
 
-            if (tumListeOku != null)
+            // JSON'u dynamic tipinde deseralize et
+            var personnelList = JsonSerializer.Deserialize<List<JsonElement>>(tumListeOku);
+
+            List<Officer> officers = new List<Officer>();
+            List<Manager> managers = new List<Manager>();
+
+            // JSON elemanlarını türlerine göre ayır
+            foreach (var item in personnelList)
             {
-                List<Manager> readJsonList = JsonSerializer.Deserialize<List<Manager>>(tumListeOku);
-                foreach (var readJson in readJsonList)
+                if (item.GetProperty("Title").GetString() == "Officer")
                 {
-                    personneller.Add(readJson);
-                    
-                    
-                   // Console.WriteLine($"Title: {readJson.Title} - Name,Surname: {readJson.Name}");
-                    
+                    Officer officer = JsonSerializer.Deserialize<Officer>(item.ToString());
+                    officers.Add(officer);
+                }
+                else if (item.GetProperty("Title").GetString() == "Manager")
+                {
+                    Manager manager = JsonSerializer.Deserialize<Manager>(item.ToString());
+                    managers.Add(manager);
                 }
             }
-            okuyucu.Close();
-           return ".";
+
+            // Officer listesini yazdır
+            Console.WriteLine("Officers:");
+            foreach (var officer in officers)
+            {
+                Console.WriteLine($"Title: {officer.Title} - Name: {officer.Name}");
+            }
+
+            // Manager listesini yazdır
+            Console.WriteLine("\nManagers:");
+            foreach (var manager in managers)
+            {
+                Console.WriteLine($"Title: {manager.Title} - Name: {manager.Name}");
+            }
         }
-
-        //public string IslenecekDosya()
-        //{
-        //    DosyaOku();
-
-
-        //}
-
-
-
-
     }
 }
