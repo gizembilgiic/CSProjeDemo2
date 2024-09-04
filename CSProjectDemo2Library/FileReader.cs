@@ -10,8 +10,8 @@ namespace CSProjectDemo2Library
 {
     public class FileReader
     {
-         List<Manager> personneller = new List<Manager>();
-        public string DosyaOku()
+          List<Manager> personneller = new List<Manager>();
+        public string DosyaOku( List<Manager> personeller)
         {
             string jsonList = JsonSerializer.Serialize(personneller);
             StreamReader okuyucu = new StreamReader(@"Json1.json");
@@ -22,12 +22,15 @@ namespace CSProjectDemo2Library
                 List<Manager> readJsonList = JsonSerializer.Deserialize<List<Manager>>(tumListeOku);
                 foreach (var readJson in readJsonList)
                 {
-                    Console.WriteLine($"Title: {readJson.Title} - Name,Surname: {readJson.Name}");
+                    personneller.Add(readJson);
+                    
+                    
+                   // Console.WriteLine($"Title: {readJson.Title} - Name,Surname: {readJson.Name}");
                     
                 }
             }
             okuyucu.Close();
-            return jsonList;
+           return ".";
         }
 
         //public string IslenecekDosya()

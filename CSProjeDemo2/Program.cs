@@ -87,9 +87,37 @@ namespace CSProjeDemo2
             //manager123.MaasHesapla();
 
             FileReader fileReader = new FileReader();
-            fileReader.DosyaOku();
+
+            //fileReader.DosyaOku();
             
-             
+            List<Manager> list = new List<Manager>();
+
+            List<BasePersonnel> personnels = new List<BasePersonnel>();
+            
+
+            string jsonList = JsonSerializer.Serialize(personnels);
+            StreamReader okuyucu = new StreamReader(@"Json1.json");
+            string tumListeOku = okuyucu.ReadToEnd();
+
+            
+
+            if (tumListeOku != null)
+            {
+                List<Manager> readJsonList = JsonSerializer.Deserialize<List<Manager>>(tumListeOku);
+                foreach (var readJson in readJsonList)
+                {
+                    //personneller.Add(readJson);
+
+
+                    Console.WriteLine($"Title: {readJson.Title} - Name,Surname: {readJson.Name}");
+
+                }
+            }
+            okuyucu.Close();
+
+            Console.WriteLine($"Title: {readJson.Title} - Name,Surname: {readJson.Name}");
+
+
 
 
         }
