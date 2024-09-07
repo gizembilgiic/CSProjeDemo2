@@ -62,7 +62,6 @@ namespace CSProjeDemo2
                 "│  Çıkış yapmak için (Ç)                             │   \r\n   " +
                 "│                                                    │   \r\n   " +
                 "└────────────────────────────────────────────────────┘   \r\n                                                            ");
-
             return Console.ReadKey(true).KeyChar;
         }
         public static char ExitControl()
