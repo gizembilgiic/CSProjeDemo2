@@ -40,7 +40,7 @@ namespace CSProjeDemo2
         }
         public static char ShowMenu()
         {
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            
             Console.Clear();
             // Menü seçenekleri kullanıcıya gösterilir
             Console.WriteLine("                                                            \r\n   " +
