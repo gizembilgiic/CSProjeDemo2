@@ -9,102 +9,102 @@ namespace CSProjectDemo2Library
 {
     public class Officer : BasePersonnel
     {
+        // Memur Derecesi
         public string OfficerGrade { get; set; }
-        public decimal MaasOfficer { get; set; }
+        // Memur Maaşı
+        public decimal CivilServantSalary { get; set; }
+        // Memur Mesai 
+        public decimal Overtime { get; set; }
+
+        // BasePersonel sınıfında tanımlanan özellikleri miras alan constructor metot.
         public Officer(string name, string title) : base(name, title)
         {
 
         }
-        
-        public override decimal MaasHesapla()
+        // BasePersonel sınıfının MaasHesapla metodu override edilir.
+        public override decimal CalculateSalary()
         {
-            Console.WriteLine("Gizem istedi boşluk attım");
-            decimal maas = 0;
+            Console.WriteLine("*** Memur maası hesaplanacaktır ***");
+            Console.WriteLine();
 
-            Console.WriteLine("Memur bir personelin maaşı hesaplanacaktır.");
-            Console.Write("Çalışma saati girin (0-300):");
-            int calismasaati_int;                         //TRY parse içine int istedi.
-            string strcalismasaati = Console.ReadLine(); //try parse istedi
-            calismasaati_int = CalismaSaati;            //TRY parse içine int istedi.
-            while (!(int.TryParse(strcalismasaati,out calismasaati_int))||calismasaati_int<1|| calismasaati_int > 300) 
-            {
-              
-                    Console.Clear();
-                    Console.WriteLine("Girilen değer bir sayı ve 1 ile 300 arasında olmalıdır.");
-                    Console.Write("Lütfen kurala uygun şekilde aylık çalışma saatini tekrar giriniz: ");
-                    strcalismasaati = Console.ReadLine();
+            Console.Write("Çalışma saati girin(0-300)\t:");
+            // Çalışma saati metodunun döndürdüğü değer ÇalışmaSaati property'sine atanır.
+            WorkingHours = WorkingHoursRange(1, 300);
 
-                
-            }
-            //---
-            Console.Clear();
-            Console.WriteLine($"Aylık çalışma saati: {strcalismasaati}");
-            Console.Write("Saatlik ücreti giriniz :");
-            decimal saatlikucret_dec;                         //TRY parse içine int istedi.
-            string strsaatlikucret = Console.ReadLine(); //try parse istedi
-            saatlikucret_dec = SaatlikUcret;            //TRY parse içine int istedi.
-            while (!(decimal.TryParse(strsaatlikucret, out saatlikucret_dec)) || saatlikucret_dec < 1 || saatlikucret_dec > 5000)
-            {
-             
-                    Console.Clear();
-                Console.WriteLine($"Aylık çalışma saati: {strcalismasaati}");
-                Console.WriteLine("Girilen değer bir sayı ve 1 ile 5000 arasında olmalıdır.");
-                    Console.Write("Lütfen kurala uygun şekilde saatlik ücretini tekrar giriniz: ");
-                    strsaatlikucret = Console.ReadLine();
+            Console.Write("Saatlik ücreti giriniz(1-5000) :  ");
+            // Ucret aralığı metodunun döndürdüğü değer SaatlikÜcret property'sine atanır.
+            HourlyWage = WageRange(1, 5000);
 
-               
-            }
-            Console.Clear();
-            Console.WriteLine($"Aylık çalışma saati: {strcalismasaati}");
-            Console.WriteLine($"Saatlik çalışma ücreti: {strsaatlikucret}");
-
-            //---
-            Console.Write("Memur derecenizi giriniz (1-2-3) :");
+            Console.Write("Memur derecenizi giriniz (1-2-3):");
+            // Memur Derecesini okur.
             OfficerGrade = Console.ReadLine();
 
-            while (!(OfficerGrade == "1" || OfficerGrade == "2" || OfficerGrade == "3"))
+            // Kullanıcının girdiği Memur Derecesinin geçerli olup olmadığını kontrol eeder.
+            while (OfficerGrade != "1" && OfficerGrade != "2" && OfficerGrade != "3")
             {
-                Console.Clear();
-                Console.WriteLine($"Aylık çalışma saati: {strcalismasaati}");
-                Console.WriteLine($"Saatlik çalışma ücreti: {strsaatlikucret}");
-                Console.Write("Hatalı bir seçim girdiniz! Memur derecesini tekrar giriniz(1-2-3) :");
+                Console.WriteLine("Hatalı bir seçim girdiniz! Memur derecesini tekrar giriniz (1-2-3): ");
                 OfficerGrade = Console.ReadLine();
             }
 
-            Console.Clear();
-            Console.WriteLine($"Aylık çalışma saati: {strcalismasaati}");
-            Console.WriteLine($"Saatlik çalışma ücreti: {strsaatlikucret}");
-            Console.WriteLine($"Memur derecesi (1-2-3): {OfficerGrade}");
+            // Çalışma satine göre maaş hesaplaması yapar.
+            decimal salary = WorkingHours <= 180
+            ? HourlyWage * WorkingHours // Eğer çalışma saati 180 den küçük veya eşitse ÇalışmaSaati ile SaatlikUcreti çarpar.
+            : (HourlyWage * 180) + ((WorkingHours - 180) * 1.5m * HourlyWage); // Değilse 180 saatin üzerindeki saatler için, SaatlikUcretin 1.5 katı ile hesaplanır.
 
-            CalismaSaati = calismasaati_int;
-            SaatlikUcret = saatlikucret_dec;
-
-
-            if (CalismaSaati <= 180)
+            // ÇalışmaSaati 180 den fazla ise, fazla mesai hesaplanır.
+            if (WorkingHours > 180)
             {
-                maas = SaatlikUcret * CalismaSaati;
+                decimal overtime = ((WorkingHours - 180) * 1.5m * HourlyWage);
+                Overtime = overtime;
             }
-            else
-            {
-                maas = (SaatlikUcret * 180) + ((CalismaSaati - 180) * 1.5m * SaatlikUcret);
-            }
+            // Memur Derece'sine göre ek maaş ekleme işlemi yapar.
             switch (OfficerGrade)
             {
                 case "1":
-                    maas += SaatlikUcret;
-                    Console.WriteLine(maas);
+                    salary += HourlyWage;
                     break;
                 case "2":
-                    maas += (SaatlikUcret * 2);
-                    Console.WriteLine(maas);
+                    salary += HourlyWage * 2;
                     break;
                 case "3":
-                    maas += (SaatlikUcret * 3);
-                    Console.WriteLine(maas);
+                    salary += HourlyWage * 3;
                     break;
             }
-            return maas;
+
+            Console.WriteLine($"Hesaplanan maaş: {salary}");
+            // Hesaplanan maaşı metodun çağrıldığı yere döndürür.
+            return salary;
+
+        }
+        private static int WorkingHoursRange(int min, int max)
+        {
+            while (true)
+            {
+                // Kullanıcının girdiği değerin (int) türüne dönüştürülüp dönüştürülemeyexceğini ve belirtilen aralıklarda olup olmadığını kontrol eder.
+                if (int.TryParse(Console.ReadLine(), out int value) && value >= min && value <= max)
+                    return value;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Girilen değer bir sayı ve {min} ile {max} arasında olmalıdır.");
+                Console.ResetColor();
+                Console.Write($"Lütfen {min} ile {max} arasında bir değer giriniz: ");
+            }
+        }
+
+        private static decimal WageRange(decimal min, decimal max)
+        {
+            while (true)
+            {
+                // Kullanıcının girdiği değerin (decimal) türüne dönüştürülüp dönüştürülemeyeceğini ve belirtilen aralıklarda olup olmadığını kontrol eder.
+                if (decimal.TryParse(Console.ReadLine(), out decimal value) && value >= min && value <= max)
+                    return value;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Girilen değer bir sayı ve {min} ile {max} arasında olmalıdır.");
+                Console.ResetColor();
+                Console.Write($"Lütfen {min} ile {max} arasında bir değer giriniz: ");
+            }
         }
     }
-  
+
 }
